@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_project/controller/MapController.dart';
+import 'package:my_project/core/data/model/ChargingStation.dart';
 
 class ChargingStationCard extends StatelessWidget {
   final ChargingStation station;

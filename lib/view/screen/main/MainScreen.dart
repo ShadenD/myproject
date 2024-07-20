@@ -8,6 +8,7 @@ import 'package:my_project/controller/MapController.dart';
 import 'package:my_project/controller/NavigationController%20.dart';
 import 'package:my_project/core/constant/imgaeasset.dart';
 import 'package:my_project/view/screen/En%20Route.dart';
+import 'package:my_project/view/screen/FavoritesPage.dart';
 import 'package:my_project/view/screen/ProfileScreen.dart';
 import 'package:my_project/view/screen/map.dart';
 
@@ -19,7 +20,7 @@ class MainScreen extends StatelessWidget {
   static final List<Widget> _widgetOptions = <Widget>[
     Map1(),
     const EnRoutePage(),
-    const Center(child: Text('Favourite')),
+    FavoritePage(),
     ProfileScreen(),
   ];
   @override

@@ -58,6 +58,8 @@ class SearchBar1 extends StatelessWidget {
 class FilterModal extends StatelessWidget {
   final MapController controller = Get.find<MapController>();
 
+  FilterModal({super.key});
+
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(

@@ -2,6 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_project/core/data/model/ChargingStation.dart';
 
 class MapController extends GetxController {
   var markers = <Marker>{}.obs;
@@ -13,6 +14,36 @@ class MapController extends GetxController {
   var selectedConnectionType = ''.obs;
   var selectedVehicleType = ''.obs;
   var selectedSpeed = ''.obs;
+  var favoriteStations = <ChargingStation>[].obs;
+
+  void toggleFavorite(ChargingStation station) {
+    station.isFavorite = !station.isFavorite;
+    if (station.isFavorite) {
+      favoriteStations.add(station);
+    } else {
+      favoriteStations.remove(station);
+    }
+    chargingStations.refresh();
+    favoriteStations.refresh();
+  }
+
+  void selectStation(ChargingStation station) {
+    selectedStation.value = station;
+  }
+
+  var chargingStations = <ChargingStation>[
+    ChargingStation(
+      name: "Broome Charging Station",
+      address: "420 Broome St, New York, NY 100013",
+      hours: "24/7",
+      distance: 2.5,
+      rating: 4.5,
+      latitude: 40.721786,
+      longitude: -74.000721,
+      imageUrl: 'assets/images/car1.jpeg',
+    ),
+    // Add more charging stations here with their respective coordinates
+  ].obs;
 
   void setSelectedDistance(int distance) {
     selectedDistance.value = distance;
@@ -28,10 +59,6 @@ class MapController extends GetxController {
 
   void setSelectedSpeed(String speed) {
     selectedSpeed.value = speed;
-  }
-
-  void selectStation(ChargingStation station) {
-    selectedStation.value = station;
   }
 
   void clearSelection() {
@@ -77,20 +104,4 @@ class MapController extends GetxController {
     selectedIndex.value = index;
     print(selectedIndex.value);
   }
-}
-
-class ChargingStation {
-  final String name;
-  final String address;
-  final double distance;
-  final double rating;
-  final LatLng location;
-
-  ChargingStation({
-    required this.name,
-    required this.address,
-    required this.distance,
-    required this.rating,
-    required this.location,
-  });
 }
