@@ -1,54 +1,63 @@
-// widgets/charging_station_card.dart
-
-// ignore_for_file: use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
+import 'package:my_project/controller/MapController.dart';
 
 class ChargingStationCard extends StatelessWidget {
+  final ChargingStation station;
+
+  const ChargingStationCard({super.key, required this.station});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16.0),
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8.0,
-          ),
-        ],
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [BoxShadow(blurRadius: 10, color: Colors.black26)],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network('https://example.com/charging_station_image.jpg'),
-          const SizedBox(height: 8.0),
-          const Text(
-            'Broome charging station',
-            style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 4.0),
-          const Text('420 Broome charging station, New York, NY 100013'),
-          const SizedBox(height: 4.0),
-          const Text('Open 24/7h'),
-          const SizedBox(height: 4.0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('2.5 km'),
-              const Text('4.5 ⭐'),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle get direction
-                },
-                child: const Text('Get direction'),
-              ),
+              Image.network('https://via.placeholder.com/50',
+                  width: 50, height: 50),
+              const SizedBox(width: 10),
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(station.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(station.address),
+                  Row(
+                    children: [
+                      const Icon(Icons.access_time, size: 16),
+                      const Text(' 24/7h', style: TextStyle(fontSize: 12)),
+                      const SizedBox(width: 10),
+                      const Icon(Icons.electric_car, size: 16),
+                      Text(' ${station.distance} km',
+                          style: const TextStyle(fontSize: 12)),
+                      const SizedBox(width: 10),
+                      const Icon(Icons.star, size: 16),
+                      Text(' ${station.rating}',
+                          style: const TextStyle(fontSize: 12)),
+                    ],
+                  ),
+                ],
+              )),
             ],
+          ),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            ),
+            child: const Text('Get direction'),
           ),
         ],
       ),

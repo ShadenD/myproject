@@ -1,6 +1,9 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:my_project/core/constant/imgaeasset.dart';
+import 'package:my_project/view/screen/editprofile.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -15,8 +18,8 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: NetworkImage(
-                        'https://via.placeholder.com/150'), // Replace with actual image
+                    backgroundImage: AssetImage(
+                        AppImageAsset.profile), // Replace with actual image
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -34,7 +37,9 @@ class ProfileScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.edit),
               title: const Text('Edit Profile'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => Editprofile());
+              },
             ),
             ListTile(
               leading: const Icon(Icons.book_online),

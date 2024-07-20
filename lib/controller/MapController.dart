@@ -8,6 +8,35 @@ class MapController extends GetxController {
   var isMapCreated = false.obs;
   GoogleMapController? googleMapController;
   var selectedIndex = 0.obs;
+  var selectedStation = Rxn<ChargingStation>();
+  var selectedDistance = 1.obs;
+  var selectedConnectionType = ''.obs;
+  var selectedVehicleType = ''.obs;
+  var selectedSpeed = ''.obs;
+
+  void setSelectedDistance(int distance) {
+    selectedDistance.value = distance;
+  }
+
+  void setSelectedConnectionType(String type) {
+    selectedConnectionType.value = type;
+  }
+
+  void setSelectedVehicleType(String type) {
+    selectedVehicleType.value = type;
+  }
+
+  void setSelectedSpeed(String speed) {
+    selectedSpeed.value = speed;
+  }
+
+  void selectStation(ChargingStation station) {
+    selectedStation.value = station;
+  }
+
+  void clearSelection() {
+    selectedStation.value = null;
+  }
 
   @override
   void onInit() {
@@ -48,4 +77,20 @@ class MapController extends GetxController {
     selectedIndex.value = index;
     print(selectedIndex.value);
   }
+}
+
+class ChargingStation {
+  final String name;
+  final String address;
+  final double distance;
+  final double rating;
+  final LatLng location;
+
+  ChargingStation({
+    required this.name,
+    required this.address,
+    required this.distance,
+    required this.rating,
+    required this.location,
+  });
 }

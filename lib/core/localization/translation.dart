@@ -47,6 +47,7 @@ class MyTranslation extends Translations {
           "39": "رمز التحقق",
           "40": "التحقق من الرمز",
           "41": "الرجاء إدخال الرمز الرقمي المرسل إلى",
+          "42": "تعديل",
         },
         "en": {
           "1": "Choose Language",
@@ -93,7 +94,8 @@ class MyTranslation extends Translations {
           "38": "Successfully Registered",
           "39": "Verification Code",
           "40": "Check code",
-          "41": "Please Enter The Digit Code Sent To"
+          "41": "Please Enter The Digit Code Sent To",
+          "42": "Edit",
         }
       };
 }

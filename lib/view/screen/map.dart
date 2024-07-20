@@ -1,67 +1,72 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/MapController.dart';
-import 'package:my_project/controller/NavigationController%20.dart';
-
-import 'package:my_project/view/screen/ProfileScreen.dart';
+import 'package:my_project/view/widget/ChargingStationCard.dart';
+import 'package:my_project/view/widget/SearchBar.dart';
 
 class Map1 extends StatelessWidget {
-  final NavigationController navigationController =
-      Get.put(NavigationController());
+  final MapController controller = Get.put(MapController());
 
-  final MapController mapController = Get.put(MapController());
   Map1({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return IndexedStack(
-        index: navigationController.selectedIndex.value,
+    return Scaffold(
+      body: Stack(
         children: [
-          Stack(
-            children: [
-              GoogleMap(
-                onMapCreated: mapController.onMapCreated,
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(37.7749, -122.4194),
-                  zoom: 14.0,
-                ),
-                // ignore: invalid_use_of_protected_member
-                markers: mapController.markers.value,
-              ),
-              Positioned(
-                top: 10.0,
-                left: 15.0,
-                right: 15.0,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25.0),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 5.0,
-                      ),
-                    ],
-                  ),
-                  child: const TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search location',
-                      border: InputBorder.none,
-                      icon: Icon(Icons.search),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          GoogleMap(
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(37.77483, -122.41942), // Centered at San Francisco
+              zoom: 12,
+            ),
+            markers: _createMarkers(),
+            onTap: (LatLng position) {
+              controller.clearSelection();
+            },
           ),
-          const Center(child: Text('En route')),
-          const Center(child: Text('Favourite')),
-          ProfileScreen(),
+          const Positioned(
+            top: 40,
+            left: 20,
+            right: 20,
+            child: SearchBar1(),
+          ),
+          Obx(() {
+            return controller.selectedStation.value != null
+                ? Positioned(
+                    bottom: 20,
+                    left: 20,
+                    right: 20,
+                    child: ChargingStationCard(
+                      station: controller.selectedStation.value!,
+                    ),
+                  )
+                : const SizedBox.shrink();
+          }),
         ],
-      );
-    });
+      ),
+    );
+  }
+
+  Set<Marker> _createMarkers() {
+    return {
+      Marker(
+        markerId: const MarkerId('1'),
+        position: const LatLng(37.77483, -122.41942),
+        infoWindow: const InfoWindow(title: 'Broome Charging Station'),
+        onTap: () {
+          controller.selectStation(ChargingStation(
+            name: 'Broome charging station',
+            address: '420 Broome St, New York, NY 10013',
+            distance: 2.5,
+            rating: 4.5,
+            location: const LatLng(37.77483, -122.41942),
+          ));
+        },
+      ),
+      // Add more markers here if needed
+    };
   }
 }

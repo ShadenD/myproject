@@ -1,12 +1,13 @@
 // main_screen.dart
 
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_key_in_widget_constructors, unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/MapController.dart';
 import 'package:my_project/controller/NavigationController%20.dart';
 import 'package:my_project/core/constant/imgaeasset.dart';
+import 'package:my_project/view/screen/En%20Route.dart';
 import 'package:my_project/view/screen/ProfileScreen.dart';
 import 'package:my_project/view/screen/map.dart';
 
@@ -17,7 +18,7 @@ class MainScreen extends StatelessWidget {
   final MapController mapController = Get.put(MapController());
   static final List<Widget> _widgetOptions = <Widget>[
     Map1(),
-    const Center(child: Text('En route')),
+    const EnRoutePage(),
     const Center(child: Text('Favourite')),
     ProfileScreen(),
   ];
@@ -28,6 +29,22 @@ class MainScreen extends StatelessWidget {
         appBar: mapController.selectedIndex.value == 3
             ? null
             : AppBar(
+                toolbarHeight: mapController.selectedIndex == 1 ? 300 : null,
+                elevation: 0,
+                centerTitle: mapController.selectedIndex == 1 ? true : false,
+                flexibleSpace: mapController.selectedIndex == 1
+                    ? Container(
+                        height: 500,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              AppImageAsset.en,
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : null,
                 backgroundColor: mapController.selectedIndex.value == 0
                     ? Colors.transparent
                     : null,
@@ -42,7 +59,16 @@ class MainScreen extends StatelessWidget {
                 title: mapController.selectedIndex.value == 0
                     ? const Text('Find your nearest charging point')
                     : mapController.selectedIndex.value == 1
-                        ? const Text('En route')
+                        ? Container(
+                            margin: const EdgeInsets.only(bottom: 250),
+                            child: const Text(
+                              'En Route Charging Point',
+                              style: TextStyle(
+                                color: Colors.black,
+                                backgroundColor: Colors.transparent,
+                              ),
+                            ),
+                          )
                         : mapController.selectedIndex.value == 2
                             ? const Text('Favourite')
                             : const Text('Flutter Demo'),
@@ -66,7 +92,7 @@ class MainScreen extends StatelessWidget {
                 label: 'Search',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.directions_car),
+                icon: Icon(Icons.social_distance),
                 label: 'En route',
               ),
               BottomNavigationBarItem(
