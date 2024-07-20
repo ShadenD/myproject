@@ -1,14 +1,13 @@
 // main_screen.dart
 
-// ignore_for_file: use_key_in_widget_constructors, unrelated_type_equality_checks
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/MapController.dart';
 import 'package:my_project/controller/NavigationController%20.dart';
 import 'package:my_project/core/constant/imgaeasset.dart';
-import 'package:my_project/view/screen/En%20Route.dart';
+import 'package:my_project/view/screen/En Route.dart';
 import 'package:my_project/view/screen/FavoritesPage.dart';
+import 'package:my_project/view/screen/NotificationPage.dart';
 import 'package:my_project/view/screen/ProfileScreen.dart';
 import 'package:my_project/view/screen/map.dart';
 
@@ -17,12 +16,14 @@ class MainScreen extends StatelessWidget {
       Get.put(NavigationController());
 
   final MapController mapController = Get.put(MapController());
+
   static final List<Widget> _widgetOptions = <Widget>[
     Map1(),
     const EnRoutePage(),
     FavoritePage(),
     ProfileScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -75,11 +76,46 @@ class MainScreen extends StatelessWidget {
                             : const Text('Flutter Demo'),
                 actions: mapController.selectedIndex.value == 0
                     ? [
-                        IconButton(
-                          icon: const Icon(Icons.notifications),
-                          onPressed: () {
-                            // Handle filter action
-                          },
+                        Stack(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.notifications),
+                              onPressed: () {
+                                // Mark all notifications as read and update badge
+                                mapController.markAllNotificationsAsRead();
+                                Get.to(() => NotificationPage());
+                              },
+                            ),
+                            Obx(() {
+                              if (mapController.unreadNotificationCount.value ==
+                                  0) {
+                                return SizedBox.shrink();
+                              }
+                              return Positioned(
+                                right: 11,
+                                top: 11,
+                                child: Container(
+                                  padding: EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  constraints: BoxConstraints(
+                                    minWidth: 14,
+                                    minHeight: 14,
+                                  ),
+                                  child: Text(
+                                    '${mapController.unreadNotificationCount.value}',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 8,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            }),
+                          ],
                         ),
                       ]
                     : null,

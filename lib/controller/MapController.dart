@@ -1,8 +1,8 @@
-// controllers/map_controller.dart
-
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_project/core/data/model/ChargingStation.dart';
+import 'package:my_project/core/data/model/NotificationModel.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart'; // Import the badge package
 
 class MapController extends GetxController {
   var markers = <Marker>{}.obs;
@@ -15,13 +15,39 @@ class MapController extends GetxController {
   var selectedVehicleType = ''.obs;
   var selectedSpeed = ''.obs;
   var favoriteStations = <ChargingStation>[].obs;
+  var notifications = <NotificationModel>[].obs;
+  var unreadNotificationCount = 0.obs; // Track unread notifications
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadMarkers();
+    // Initialize badge count
+    FlutterAppBadger.updateBadgeCount(unreadNotificationCount.value);
+  }
+
+  void addNotification(String message) {
+    notifications.add(NotificationModel(
+      message: message,
+      timestamp: DateTime.now(),
+    ));
+    unreadNotificationCount.value = notifications.length;
+    FlutterAppBadger.updateBadgeCount(unreadNotificationCount.value);
+  }
+
+  void markAllNotificationsAsRead() {
+    unreadNotificationCount.value = 0;
+    FlutterAppBadger.removeBadge();
+  }
 
   void toggleFavorite(ChargingStation station) {
     station.isFavorite = !station.isFavorite;
     if (station.isFavorite) {
       favoriteStations.add(station);
+      addNotification("Added ${station.name} to favorites");
     } else {
       favoriteStations.remove(station);
+      addNotification("Removed ${station.name} from favorites");
     }
     chargingStations.refresh();
     favoriteStations.refresh();
@@ -29,6 +55,7 @@ class MapController extends GetxController {
 
   void selectStation(ChargingStation station) {
     selectedStation.value = station;
+    addNotification("Selected ${station.name}");
   }
 
   var chargingStations = <ChargingStation>[
@@ -65,12 +92,6 @@ class MapController extends GetxController {
     selectedStation.value = null;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadMarkers();
-  }
-
   void loadMarkers() {
     markers.addAll([
       const Marker(
@@ -100,7 +121,7 @@ class MapController extends GetxController {
     markers.add(marker);
   }
 
-  changeIndex(int index) {
+  void changeIndex(int index) {
     selectedIndex.value = index;
     print(selectedIndex.value);
   }

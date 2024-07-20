@@ -6,15 +6,14 @@ import 'package:my_project/view/screen/ChargingStationDetailPage.dart';
 class FavoritePage extends StatelessWidget {
   final MapController controller = Get.find();
 
+  FavoritePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Favorite Stations'),
-      ),
       body: Obx(() {
         return controller.favoriteStations.isEmpty
-            ? Center(
+            ? const Center(
                 child: Text(
                   'Favorites are empty',
                   style: TextStyle(fontSize: 24),
