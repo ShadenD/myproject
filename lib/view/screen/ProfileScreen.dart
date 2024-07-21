@@ -3,6 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/core/constant/imgaeasset.dart';
+import 'package:my_project/view/screen/BookingPage.dart';
+import 'package:my_project/view/screen/FAQPage.dart';
+import 'package:my_project/view/screen/HelpPage.dart';
+import 'package:my_project/view/screen/LanguageScreen.dart';
+import 'package:my_project/view/screen/PrivacyPolicyPage.dart';
+import 'package:my_project/view/screen/TermsAndConditionsScreen.dart';
 import 'package:my_project/view/screen/editprofile.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -44,32 +50,68 @@ class ProfileScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.book_online),
               title: const Text('My booking'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => BookingPage());
+              },
             ),
             ListTile(
               leading: const Icon(Icons.language),
               title: const Text('Language'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => LanguageScreen());
+              },
             ),
             ListTile(
               leading: const Icon(Icons.description),
               title: const Text('Terms and condition'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const TermsAndConditionsScreen());
+              },
             ),
             ListTile(
               leading: const Icon(Icons.question_answer),
               title: const Text('FAQs'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => FAQPage());
+              },
             ),
             ListTile(
               leading: const Icon(Icons.privacy_tip),
               title: const Text('Privacy policy'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const PrivacyPolicyPage());
+              },
             ),
             ListTile(
               leading: const Icon(Icons.help),
               title: const Text('Help'),
-              onTap: () {},
+              onTap: () {
+                Get.to(() => HelpPage());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout_sharp),
+              title: const Text('Log Out'),
+              onTap: () {
+                Get.dialog(
+                  AlertDialog(
+                    title: Text('Are you sure you want to logout?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Get.back(),
+                        child: Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.back(); // Close the dialog
+                          Get.offAllNamed('/signin'); // Navigate to SignIn page
+                        },
+                        child: Text('Logout'),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ],
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/MapController.dart';
+import 'package:my_project/controller/detialsController.dart';
 import 'package:my_project/core/data/model/ChargingStation.dart';
 import 'package:my_project/view/screen/ChargingStationDetailPage.dart';
 import 'package:my_project/view/widget/ChargingStationCard.dart';
@@ -11,6 +12,7 @@ import 'package:my_project/view/widget/SearchBar.dart';
 
 class Map1 extends StatelessWidget {
   final MapController controller = Get.put(MapController());
+  final Detialscontroller detialscontroller = Get.put(Detialscontroller());
 
   Map1({super.key});
 

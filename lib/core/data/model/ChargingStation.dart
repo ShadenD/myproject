@@ -21,3 +21,19 @@ class ChargingStation {
     this.isFavorite = false,
   });
 }
+
+class ConnectionType {
+  final String type;
+  final String power;
+  final String price;
+  final int taken;
+  final int total;
+
+  ConnectionType({
+    required this.type,
+    required this.power,
+    required this.price,
+    required this.taken,
+    required this.total,
+  });
+}

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/detialsController.dart';
@@ -11,6 +13,8 @@ class ChargingStationDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(station.name),
@@ -32,27 +36,42 @@ class ChargingStationDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(station.imageUrl, fit: BoxFit.cover),
+              SizedBox(
+                width: screenWidth,
+                child: Image.asset(station.imageUrl, fit: BoxFit.cover),
+              ),
               const SizedBox(height: 10),
-              Text(station.name,
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold)),
+              Text(
+                station.name,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
               Text(station.address),
               Row(
                 children: [
                   const Icon(Icons.access_time, size: 16),
-                  const Text(' 24/7h', style: TextStyle(fontSize: 12)),
+                  Text(' ${station.hours}',
+                      style: const TextStyle(fontSize: 12)),
                   const SizedBox(width: 10),
                   const Icon(Icons.electric_car, size: 16),
-                  Text(' ${station.distance} km',
-                      style: const TextStyle(fontSize: 12)),
+                  Text(
+                    ' ${station.distance} km',
+                    style: const TextStyle(fontSize: 12),
+                  ),
                   const SizedBox(width: 10),
                   const Icon(Icons.star, size: 16),
-                  Text(' ${station.rating}',
-                      style: const TextStyle(fontSize: 12)),
+                  Text(
+                    ' ${station.rating}',
+                    style: const TextStyle(fontSize: 12),
+                  ),
                 ],
               ),
-              // Add other sections like Amenities, Connection type, Reviews, etc.
+              const SizedBox(height: 10),
+              _buildAmenitiesSection(),
+              const SizedBox(height: 10),
+              _buildConnectionTypeSection(),
+              const SizedBox(height: 10),
+              _buildReviewSection(),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {},
@@ -75,4 +94,124 @@ class ChargingStationDetailPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildAmenitiesSection() {
+    List<String> amenities = ["Cafe", "Store", "Park", "Toilet", "Food"];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Amenities',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: amenities.map((amenity) {
+            return Column(
+              children: [
+                const Icon(Icons.circle),
+                Text(amenity),
+              ],
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildConnectionTypeSection() {
+    // Placeholder for connection types, replace with actual data as needed
+    List<ConnectionType> connectionTypes = [
+      ConnectionType(
+          type: "CCS2", power: "150kw", price: "\$0.05/kw", taken: 0, total: 2),
+      ConnectionType(
+          type: "CCS", power: "120kw", price: "\$0.05/kw", taken: 3, total: 3),
+      ConnectionType(
+          type: "Mennekers",
+          power: "22kw",
+          price: "\$0.02/kw",
+          taken: 0,
+          total: 2),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Connection type',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        Column(
+          children: connectionTypes.map((type) {
+            return Card(
+              child: ListTile(
+                title: Text(type.type),
+                subtitle: Text('${type.power} (${type.price})'),
+                trailing: Text(
+                  '${type.taken}/${type.total} taken',
+                  style: TextStyle(
+                    color: type.taken == type.total ? Colors.red : Colors.green,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildReviewSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Review',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            const Text('Rating'),
+            const SizedBox(width: 10),
+            Obx(() {
+              return Expanded(
+                child: Slider(
+                  value: controller.rating.value,
+                  onChanged: (newValue) {
+                    controller.updateRating(newValue);
+                  },
+                  divisions: 10,
+                  max: 5,
+                  min: 0,
+                ),
+              );
+            }),
+            Obx(() {
+              return Text('${controller.rating.value.toStringAsFixed(1)}');
+            }),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ConnectionType {
+  final String type;
+  final String power;
+  final String price;
+  final int taken;
+  final int total;
+
+  ConnectionType({
+    required this.type,
+    required this.power,
+    required this.price,
+    required this.taken,
+    required this.total,
+  });
 }

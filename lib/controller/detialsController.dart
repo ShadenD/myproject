@@ -4,6 +4,11 @@ import 'package:my_project/core/data/model/ChargingStation.dart';
 class Detialscontroller extends GetxController {
   var selectedStation = Rxn<ChargingStation>();
   var favoriteStations = <ChargingStation>[].obs;
+  var rating = 0.0.obs;
+
+  void updateRating(double newRating) {
+    rating.value = newRating;
+  }
 
   void selectStation(ChargingStation station) {
     selectedStation.value = station;
