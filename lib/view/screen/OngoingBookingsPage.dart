@@ -52,9 +52,9 @@ class SlotCard extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    PaymentPage(
-                      slot2: slot1,
-                    );
+                    Get.to(() => PaymentPage(
+                          slot2: slot1,
+                        ));
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: Text('Make Payment'),

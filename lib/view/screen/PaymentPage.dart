@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_project/core/data/model/slot.dart';
+import 'package:my_project/view/screen/PaymentNow.dart';
 
 class PaymentPage extends StatelessWidget {
   final slot slot2;
@@ -26,7 +28,7 @@ class PaymentPage extends StatelessWidget {
             SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
-                // Handle payment logic
+                Get.to(() => PaymentView());
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
