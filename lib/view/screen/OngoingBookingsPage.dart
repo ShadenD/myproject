@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/BookingController.dart';
 import 'package:my_project/core/data/model/slot.dart';
+import 'package:my_project/view/screen/PaymentPage.dart';
 
 class OngoingSlotsPage extends StatelessWidget {
   final BookingController controller = Get.find();
@@ -51,7 +52,9 @@ class SlotCard extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Handle payment action
+                    PaymentPage(
+                      slot2: slot1,
+                    );
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: Text('Make Payment'),

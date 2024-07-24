@@ -1,6 +1,11 @@
+// ignore_for_file: avoid_types_as_parameter_names
+
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:my_project/core/data/model/slot.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingController extends GetxController {
   var selectedVehicleType = ''.obs;
@@ -10,6 +15,13 @@ class BookingController extends GetxController {
   var selectedTime = TimeOfDay.now().obs;
 
   var slots = <slot>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadSlots();
+  }
+
   String get formattedTime =>
       '${selectedTime.value.hour.toString().padLeft(2, '0')}:${selectedTime.value.minute.toString().padLeft(2, '0')}';
 
@@ -47,13 +59,32 @@ class BookingController extends GetxController {
       print(
           "Adding Slot: ${slot1.vehicleType}, ${slot1.vehicleModel}, ${slot1.connectionType}, ${slot1.date}, ${slot1.time.format(Get.context!)}, ${slot1.price}");
       slots.add(slot1);
-      print("Current Slots Lenght: ${slots.length}");
+      saveSlots(); // Save slots to local storage
+      print("Current Slots Length: ${slots.length}");
     } catch (e) {
       print("Error adding slot: $e");
     }
   }
 
+  void saveSlots() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> slotList =
+        slots.map((slot) => jsonEncode(slot.toJson())).toList();
+    await prefs.setStringList('slots', slotList);
+  }
+
+  void loadSlots() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> slotList = prefs.getStringList('slots') ?? [];
+
+    // Convert the JSON strings into Slot objects
+    slots.value = slotList
+        .map((jsonString) => slot.fromJson(jsonDecode(jsonString)))
+        .toList();
+  }
+
   void cancelSlot(int index) {
     slots.removeAt(index);
+    saveSlots();
   }
 }
