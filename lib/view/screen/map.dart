@@ -138,6 +138,25 @@ class Map1 extends StatelessWidget {
           );
         },
       ),
+      Marker(
+        markerId: const MarkerId('1'),
+        position: const LatLng(37.77483, -122.41942),
+        infoWindow: const InfoWindow(title: 'Broome Charging Station'),
+        onTap: () {
+          controller.selectStation(
+            ChargingStation(
+              name: "Broome Charging Station",
+              address: "420 Broome St, New York, NY 100013",
+              hours: "24/7",
+              distance: 2.5,
+              rating: 4.5,
+              latitude: 40.721786,
+              longitude: -74.000721,
+              imageUrl: 'assets/images/car1.jpeg',
+            ),
+          );
+        },
+      ),
       // Add more markers here if needed
     };
   }

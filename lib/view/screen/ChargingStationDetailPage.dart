@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/detialsController.dart';
 import 'package:my_project/core/data/model/ChargingStation.dart';
+import 'package:my_project/view/screen/BookingSlotePage.dart';
 
 class ChargingStationDetailPage extends StatelessWidget {
   final ChargingStation station;
@@ -74,7 +75,9 @@ class ChargingStationDetailPage extends StatelessWidget {
               _buildReviewSection(),
               const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => SlotBookingPage());
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                 ),
@@ -122,7 +125,6 @@ class ChargingStationDetailPage extends StatelessWidget {
   }
 
   Widget _buildConnectionTypeSection() {
-    // Placeholder for connection types, replace with actual data as needed
     List<ConnectionType> connectionTypes = [
       ConnectionType(
           type: "CCS2", power: "150kw", price: "\$0.05/kw", taken: 0, total: 2),
@@ -144,18 +146,43 @@ class ChargingStationDetailPage extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        Column(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: connectionTypes.map((type) {
-            return Card(
-              child: ListTile(
-                title: Text(type.type),
-                subtitle: Text('${type.power} (${type.price})'),
-                trailing: Text(
-                  '${type.taken}/${type.total} taken',
-                  style: TextStyle(
-                    color: type.taken == type.total ? Colors.red : Colors.green,
+            return Container(
+              width: 100,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 5,
                   ),
-                ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    type.type,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text('${type.power} (${type.price})'),
+                  const SizedBox(height: 5),
+                  Text(
+                    '${type.taken}/${type.total} taken',
+                    style: TextStyle(
+                      color:
+                          type.taken == type.total ? Colors.red : Colors.green,
+                    ),
+                  ),
+                ],
               ),
             );
           }).toList(),
@@ -180,7 +207,7 @@ class ChargingStationDetailPage extends StatelessWidget {
             Obx(() {
               return Expanded(
                 child: Slider(
-                  value: controller.rating.value,
+                  value: controller.rating1.value,
                   onChanged: (newValue) {
                     controller.updateRating(newValue);
                   },
@@ -191,7 +218,7 @@ class ChargingStationDetailPage extends StatelessWidget {
               );
             }),
             Obx(() {
-              return Text('${controller.rating.value.toStringAsFixed(1)}');
+              return Text('${controller.rating1.value.toStringAsFixed(1)}');
             }),
           ],
         ),

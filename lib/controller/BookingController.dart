@@ -1,38 +1,59 @@
-// ignore_for_file: unnecessary_overrides
-
 import 'package:get/get.dart';
-import 'package:my_project/core/data/model/Booking.dart';
+import 'package:my_project/core/data/model/slot.dart';
+import 'package:flutter/material.dart';
 
 class BookingController extends GetxController {
-  var bookings = <Booking>[].obs;
+  var selectedVehicleType = ''.obs;
+  var selectedVehicleModel = ''.obs;
+  var selectedConnectionType = ''.obs;
+  var selectedDate = ''.obs;
+  var selectedTime = TimeOfDay.now().obs;
 
-  void addBooking(Booking booking) {
-    bookings.add(booking);
+  var slots = <slot>[].obs;
+  String get formattedTime =>
+      '${selectedTime.value.hour.toString().padLeft(2, '0')}:${selectedTime.value.minute.toString().padLeft(2, '0')}';
+
+  void updateVehicleType(String type) {
+    selectedVehicleType.value = type;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
+  void updateVehicleModel(String model) {
+    selectedVehicleModel.value = model;
   }
 
-  // void fetchBookings() {
-  //   var fetchedBookings = [
-  //     Booking(
-  //       stationName: 'Ola charging station',
-  //       date: '6 Oct, 2022',
-  //       time: '10.00AM',
-  //       address: 'B 420 Broome station, New york, NY 100013, USA',
-  //       imageUrl: 'assets/images/ola_station.png',
-  //     ),
-  //     Booking(
-  //       stationName: 'Hp charging station',
-  //       date: '10 Oct, 2022',
-  //       time: '8.00AM',
-  //       address: 'B 420 Broome station, New york, NY 100013, USA',
-  //       imageUrl: 'assets/images/hp_station.png',
-  //     ),
-  //   ];
+  void updateConnectionType(String type) {
+    selectedConnectionType.value = type;
+  }
 
-  //   bookings.assignAll(fetchedBookings);
-  // }
+  void updateDate(String date) {
+    selectedDate.value = date;
+  }
+
+  void updateTime(TimeOfDay time) {
+    selectedTime.value = time;
+  }
+
+  void addSlot(double price) {
+    try {
+      DateTime parsedDate = DateTime.parse(selectedDate.value);
+      final slot1 = slot(
+        vehicleType: selectedVehicleType.value,
+        vehicleModel: selectedVehicleModel.value,
+        connectionType: selectedConnectionType.value,
+        date: parsedDate,
+        time: selectedTime.value,
+        price: price,
+      );
+      print(
+          "Adding Slot: ${slot1.vehicleType}, ${slot1.vehicleModel}, ${slot1.connectionType}, ${slot1.date}, ${slot1.time.format(Get.context!)}, ${slot1.price}");
+      slots.add(slot1);
+      print("Current Slots Lenght: ${slots.length}");
+    } catch (e) {
+      print("Error adding slot: $e");
+    }
+  }
+
+  void cancelSlot(int index) {
+    slots.removeAt(index);
+  }
 }

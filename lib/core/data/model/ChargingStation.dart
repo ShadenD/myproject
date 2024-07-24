@@ -3,7 +3,7 @@ class ChargingStation {
   final String address;
   final String hours;
   final double distance;
-  final double rating;
+  late final double rating;
   final double latitude;
   final double longitude;
   final String imageUrl;

@@ -69,6 +69,16 @@ class MapController extends GetxController {
       longitude: -74.000721,
       imageUrl: 'assets/images/car1.jpeg',
     ),
+    ChargingStation(
+      name: "Broome Charging Station",
+      address: "420 Broome St, New York, NY 100013",
+      hours: "24/7",
+      distance: 2.5,
+      rating: 4.5,
+      latitude: 40.721786,
+      longitude: -74.000721,
+      imageUrl: 'assets/images/car1.jpeg',
+    ),
     // Add more charging stations here with their respective coordinates
   ].obs;
 
