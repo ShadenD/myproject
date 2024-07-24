@@ -80,6 +80,20 @@ class PaymentView extends StatelessWidget {
                 onPressed: () {
                   // Handle payment logic
                   Get.snackbar('Payment', 'Processing payment...');
+
+                  // Add payment to history and remove from ongoing
+                  var cardDetails = {
+                    'cardNumber': controller.cardNumber.value,
+                    'expireDate': controller.expireDate.value,
+                    'cvv': controller.cvv.value,
+                    'cardHolderName': controller.cardHolderName.value,
+                  };
+                  controller.addProcessedPayment(cardDetails);
+                  controller
+                      .removeOngoingCard(0); // Assuming one card at a time
+                  Future.delayed(Duration(seconds: 1), () {
+                    Get.find<PaymentController>().moveToHistory();
+                  });
                 },
                 child: Text('Payment'),
                 style: ElevatedButton.styleFrom(

@@ -8,6 +8,9 @@ class PaymentController extends GetxController {
   var cardHolderName = ''.obs;
   var saveCard = false.obs;
 
+  var ongoingCards = <Map<String, String>>[].obs;
+  var processedPayments = <Map<String, String>>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -64,5 +67,28 @@ class PaymentController extends GetxController {
     await prefs.remove('cvv');
     await prefs.remove('cardHolderName');
     await prefs.remove('saveCard');
+  }
+
+  void addOngoingCard() {
+    ongoingCards.add({
+      'cardNumber': cardNumber.value,
+      'expireDate': expireDate.value,
+      'cvv': cvv.value,
+      'cardHolderName': cardHolderName.value,
+    });
+  }
+
+  void addProcessedPayment(Map<String, String> card) {
+    processedPayments.add(card);
+  }
+
+  void removeOngoingCard(int index) {
+    ongoingCards.removeAt(index);
+  }
+
+  var tabIndex = 0.obs;
+
+  void moveToHistory() {
+    tabIndex.value = 1;
   }
 }
