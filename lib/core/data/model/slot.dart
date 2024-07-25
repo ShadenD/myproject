@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class slot {
@@ -7,6 +8,10 @@ class slot {
   DateTime date;
   TimeOfDay time;
   double price;
+  String imageUrl;
+  double chargingAmount;
+  double totalCost;
+  double battery;
 
   slot({
     required this.vehicleType,
@@ -15,6 +20,10 @@ class slot {
     required this.date,
     required this.time,
     required this.price,
+    required this.totalCost,
+    required this.imageUrl,
+    required this.battery,
+    required this.chargingAmount,
   });
 
   Map<String, dynamic> toJson() {
@@ -25,6 +34,10 @@ class slot {
       'date': date.toIso8601String(),
       'time': '${time.hour}:${time.minute}',
       'price': price,
+      'totalCost': totalCost,
+      'battery': battery,
+      'imageUrl': imageUrl,
+      'chargingAmount': chargingAmount,
     };
   }
 
@@ -38,7 +51,11 @@ class slot {
         hour: int.parse(json['time'].split(':')[0]),
         minute: int.parse(json['time'].split(':')[1]),
       ),
-      price: json['price'],
+      battery: (json['battery'] ?? 0.0).toDouble(),
+      price: (json['price'] ?? 0.0).toDouble(),
+      totalCost: (json['totalCost'] ?? 0.0).toDouble(),
+      imageUrl: json['imageUrl'] ?? '',
+      chargingAmount: (json['chargingAmount'] ?? 0.0).toDouble(),
     );
   }
 }

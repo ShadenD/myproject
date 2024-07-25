@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:my_project/controller/BookingController.dart';
 import 'package:my_project/core/data/model/slot.dart';
 import 'package:my_project/view/screen/PaymentPage.dart';
@@ -17,6 +18,7 @@ class OngoingSlotsPage extends StatelessWidget {
           return SlotCard(
             slot1: slot,
             onCancel: () => controller.cancelSlot(index),
+            index1: index,
           );
         },
       ),
@@ -26,27 +28,32 @@ class OngoingSlotsPage extends StatelessWidget {
 
 class SlotCard extends StatelessWidget {
   final slot slot1;
+  final int index1; // Add index as a parameter
+
   final VoidCallback onCancel;
 
   SlotCard({
     required this.slot1,
     required this.onCancel,
+    required this.index1,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Vehicle Type: ${slot1.vehicleType}"),
             Text("Vehicle Model: ${slot1.vehicleModel}"),
             Text("Connection Type: ${slot1.connectionType}"),
-            Text("Date: ${slot1.date.toLocal()}".split(' ')[0]),
+            Text(
+                "Date: ${DateFormat('yyyy-MM-dd').format(slot1.date)}"), // Format the date
             Text("Time: ${slot1.time.format(context)}"),
             Text("Price: \$${slot1.price}"),
+            Text("Total Cost: \$${slot1.totalCost}"), // Display total cost
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -54,6 +61,7 @@ class SlotCard extends StatelessWidget {
                   onPressed: () {
                     Get.to(() => PaymentPage(
                           slot2: slot1,
+                          cardIndex: index1,
                         ));
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),

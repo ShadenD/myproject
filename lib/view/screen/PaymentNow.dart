@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_project/controller/BookingController.dart';
 import 'package:my_project/controller/PaymentController.dart';
+import 'package:my_project/view/screen/BookingPage.dart';
 
 class PaymentView extends StatelessWidget {
   final PaymentController controller = Get.put(PaymentController());
+  final int cardIndex;
+
+  PaymentView({super.key, required this.cardIndex});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment'),
+        title: const Text('Payment'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -17,7 +22,7 @@ class PaymentView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
                 height: 200,
                 child: Image.asset(
@@ -25,9 +30,9 @@ class PaymentView extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Obx(() => TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Card Number',
                       border: OutlineInputBorder(),
                     ),
@@ -35,9 +40,9 @@ class PaymentView extends StatelessWidget {
                         text: controller.cardNumber.value),
                     onChanged: controller.updateCardNumber,
                   )),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Obx(() => TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Expire Date',
                       border: OutlineInputBorder(),
                     ),
@@ -45,9 +50,9 @@ class PaymentView extends StatelessWidget {
                         text: controller.expireDate.value),
                     onChanged: controller.updateExpireDate,
                   )),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Obx(() => TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'CVV',
                       border: OutlineInputBorder(),
                     ),
@@ -55,9 +60,9 @@ class PaymentView extends StatelessWidget {
                         TextEditingController(text: controller.cvv.value),
                     onChanged: controller.updateCvv,
                   )),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Obx(() => TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Name on Card',
                       border: OutlineInputBorder(),
                     ),
@@ -65,14 +70,14 @@ class PaymentView extends StatelessWidget {
                         text: controller.cardHolderName.value),
                     onChanged: controller.updateCardHolderName,
                   )),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Obx(() => Row(
                     children: [
                       Checkbox(
                         value: controller.saveCard.value,
                         onChanged: controller.toggleSaveCard,
                       ),
-                      Text('Save this card'),
+                      const Text('Save this card'),
                     ],
                   )),
               SizedBox(height: 20),
@@ -88,12 +93,10 @@ class PaymentView extends StatelessWidget {
                     'cvv': controller.cvv.value,
                     'cardHolderName': controller.cardHolderName.value,
                   };
-                  controller.addProcessedPayment(cardDetails);
-                  controller
-                      .removeOngoingCard(0); // Assuming one card at a time
-                  Future.delayed(Duration(seconds: 1), () {
-                    Get.find<PaymentController>().moveToHistory();
-                  });
+                  Get.snackbar('Payment', 'Processing payment...');
+                  Get.find<BookingController>().moveCardToHistory(cardIndex);
+
+                  Get.to(() => BookingPage());
                 },
                 child: Text('Payment'),
                 style: ElevatedButton.styleFrom(

@@ -85,10 +85,4 @@ class PaymentController extends GetxController {
   void removeOngoingCard(int index) {
     ongoingCards.removeAt(index);
   }
-
-  var tabIndex = 0.obs;
-
-  void moveToHistory() {
-    tabIndex.value = 1;
-  }
 }

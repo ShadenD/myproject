@@ -1,65 +1,11 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/MapController.dart';
-import 'package:my_project/view/widget/FilterModal.dart';
 
-class SearchBar1 extends StatelessWidget {
-  const SearchBar1({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(blurRadius: 10, color: Colors.black26)
-              ],
-            ),
-            child: const TextField(
-              decoration: InputDecoration(
-                hintText: 'Search location',
-                border: InputBorder.none,
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black26)],
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return FilterModal();
-                  });
-              print("Filter button pressed");
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class FilterModal extends StatelessWidget {
+class FilterModal2 extends StatelessWidget {
   final MapController controller = Get.find<MapController>();
 
-  FilterModal({super.key});
+  FilterModal2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +171,7 @@ class FilterModal extends StatelessWidget {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        // Apply filters and close the bottom sheet
+                        // Apply the filters and close the bottom sheet
                         controller.applyFilters();
                         Navigator.pop(context); // Close the modal
                       },

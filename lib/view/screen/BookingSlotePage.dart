@@ -248,7 +248,29 @@ class SlotBookingPage extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   )),
               const SizedBox(height: 16),
-              _buildInputTile('Price', 'Set price'),
+              const Text(
+                'Price',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
+              const SizedBox(height: 8),
+              Obx(() => ListTile(
+                    title: Text(
+                      bookingController.formattedChargingAmount,
+                      style:
+                          const TextStyle(fontSize: 16, color: Colors.black54),
+                    ),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    onTap: () => showChargingBottomSheet(context),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(color: Colors.grey.shade300),
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  )),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
@@ -348,4 +370,44 @@ class VehicleModelPicker extends StatelessWidget {
       ),
     );
   }
+}
+
+void showChargingBottomSheet(BuildContext context) {
+  final BookingController controller3 = Get.find();
+
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Set fix amount of charging',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            Obx(
+              () => Slider(
+                value: controller3.chargingAmount.value,
+                min: 0,
+                max: 100,
+                divisions: 100,
+                label: '${controller3.chargingAmount.value.round()}',
+                onChanged: (value) {
+                  controller3.setChargingAmount(value);
+                },
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('${controller3.formattedChargingAmount} % charging'),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

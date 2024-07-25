@@ -1,4 +1,5 @@
 class ChargingStation {
+  final int id;
   final String name;
   final String address;
   final String hours;
@@ -7,9 +8,13 @@ class ChargingStation {
   final double latitude;
   final double longitude;
   final String imageUrl;
+  final String connectionTypes; // Changed to a list of ConnectionType
+  final String vehicleType;
+  final String speed;
   bool isFavorite;
 
   ChargingStation({
+    required this.id,
     required this.name,
     required this.address,
     required this.hours,
@@ -18,6 +23,9 @@ class ChargingStation {
     required this.latitude,
     required this.longitude,
     required this.imageUrl,
+    required this.connectionTypes,
+    required this.vehicleType,
+    required this.speed,
     this.isFavorite = false,
   });
 }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:my_project/core/data/model/Booking.dart';
 import 'package:my_project/core/data/model/ChargingStation.dart';
 import 'package:my_project/core/data/model/NotificationModel.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart'; // Import the badge package
@@ -17,6 +18,9 @@ class MapController extends GetxController {
   var favoriteStations = <ChargingStation>[].obs;
   var notifications = <NotificationModel>[].obs;
   var unreadNotificationCount = 0.obs; // Track unread notifications
+  var allStations =
+      <ChargingStation>[].obs; // Replace with your actual data type
+  var filteredStations = <ChargingStation>[].obs;
 
   @override
   void onInit() {
@@ -63,22 +67,31 @@ class MapController extends GetxController {
       name: "Broome Charging Station",
       address: "420 Broome St, New York, NY 100013",
       hours: "24/7",
-      distance: 2.5,
+      distance: 500,
       rating: 4.5,
       latitude: 40.721786,
       longitude: -74.000721,
       imageUrl: 'assets/images/car1.jpeg',
+      id: 2,
+      vehicleType: '2 wheel',
+      connectionTypes: 'CCS',
+      speed: 'Standard',
     ),
     ChargingStation(
       name: "Broome Charging Station",
       address: "420 Broome St, New York, NY 100013",
       hours: "24/7",
-      distance: 2.5,
+      distance: 1000,
       rating: 4.5,
       latitude: 40.721786,
       longitude: -74.000721,
       imageUrl: 'assets/images/car1.jpeg',
+      id: 2,
+      vehicleType: '3 wheel',
+      connectionTypes: 'skjx;as',
+      speed: 'Standard',
     ),
+
     // Add more charging stations here with their respective coordinates
   ].obs;
 
@@ -92,10 +105,6 @@ class MapController extends GetxController {
 
   void setSelectedVehicleType(String type) {
     selectedVehicleType.value = type;
-  }
-
-  void setSelectedSpeed(String speed) {
-    selectedSpeed.value = speed;
   }
 
   void clearSelection() {
@@ -134,5 +143,21 @@ class MapController extends GetxController {
   void changeIndex(int index) {
     selectedIndex.value = index;
     print(selectedIndex.value);
+  }
+
+  void setSelectedSpeed(String speed) {
+    selectedSpeed.value = speed;
+    applyFilters();
+  }
+
+  void applyFilters() {
+    filteredStations.addAllIf(
+        chargingStations.where((station) {
+          return (station.distance <= selectedDistance.value ||
+              (selectedConnectionType.value.isEmpty) ||
+              (selectedVehicleType.value.isEmpty ||
+                  station.vehicleType == selectedVehicleType.value));
+        }).toList(),
+        chargingStations);
   }
 }

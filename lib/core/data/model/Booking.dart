@@ -1,4 +1,6 @@
 class Booking {
+  final String id;
+
   final String stationName;
   final String date;
   final String time;
@@ -6,6 +8,7 @@ class Booking {
   final String imageUrl;
 
   Booking({
+    required this.id,
     required this.stationName,
     required this.date,
     required this.time,
