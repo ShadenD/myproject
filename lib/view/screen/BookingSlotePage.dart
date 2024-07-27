@@ -274,7 +274,7 @@ class SlotBookingPage extends StatelessWidget {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  double price = 50.0; // Replace with actual price input
+                  double price = 50.0;
                   bookingController.addSlot(price);
                   Get.to(() => BookingPage());
                 },
@@ -383,7 +383,7 @@ void showChargingBottomSheet(BuildContext context) {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'Set fix amount of charging',
               style: TextStyle(fontSize: 18.0),
             ),
@@ -403,7 +403,8 @@ void showChargingBottomSheet(BuildContext context) {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('${controller3.formattedChargingAmount} % charging'),
+              child: Obx(() =>
+                  Text('${controller3.formattedChargingAmount} % charging')),
             ),
           ],
         ),

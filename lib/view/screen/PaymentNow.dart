@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:my_project/controller/BookingController.dart';
 import 'package:my_project/controller/PaymentController.dart';
 import 'package:my_project/view/screen/BookingPage.dart';
+import 'package:my_project/view/screen/ConfirmationPage.dart';
 
 class PaymentView extends StatelessWidget {
   final PaymentController controller = Get.put(PaymentController());
@@ -96,7 +97,7 @@ class PaymentView extends StatelessWidget {
                   Get.snackbar('Payment', 'Processing payment...');
                   Get.find<BookingController>().moveCardToHistory(cardIndex);
 
-                  Get.to(() => BookingPage());
+                  Get.to(() => const ConfirmationPage());
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:my_project/controller/detialsController.dart';
 import 'package:my_project/core/data/model/ChargingStation.dart';
 import 'package:my_project/view/screen/BookingSlotePage.dart';
+import 'package:my_project/view/screen/LocationPage.dart';
 
 class ChargingStationDetailPage extends StatelessWidget {
   final ChargingStation station;
@@ -85,7 +86,11 @@ class ChargingStationDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => LocationPage(
+                        distance: station.distance,
+                      ));
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
                 ),
