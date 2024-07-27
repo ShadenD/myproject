@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_project/controller/BookingController.dart';
 import 'package:my_project/controller/PaymentController.dart';
-import 'package:my_project/core/data/model/Booking.dart';
 import 'package:my_project/view/screen/HistoryView.dart';
 import 'package:my_project/view/screen/OngoingBookingsPage.dart';
 

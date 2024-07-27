@@ -172,7 +172,7 @@ class FilterModal2 extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Apply the filters and close the bottom sheet
-                        controller.applyFilters();
+                        controller.filterStations();
                         Navigator.pop(context); // Close the modal
                       },
                       child: Text('Filter'),

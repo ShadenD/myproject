@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:my_project/core/data/model/Booking.dart';
@@ -124,6 +126,7 @@ class MapController extends GetxController {
         infoWindow: InfoWindow(title: 'Charging Station 2'),
       ),
     ]);
+    filteredStations.value = chargingStations;
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -147,17 +150,30 @@ class MapController extends GetxController {
 
   void setSelectedSpeed(String speed) {
     selectedSpeed.value = speed;
-    applyFilters();
+    filterStations();
   }
 
-  void applyFilters() {
-    filteredStations.addAllIf(
-        chargingStations.where((station) {
-          return (station.distance <= selectedDistance.value ||
-              (selectedConnectionType.value.isEmpty) ||
-              (selectedVehicleType.value.isEmpty ||
-                  station.vehicleType == selectedVehicleType.value));
-        }).toList(),
-        chargingStations);
+  void filterStations() {
+    filteredStations.value = chargingStations.where((station) {
+      var matchesDistance = selectedDistance.value == null ||
+          station.distance <= selectedDistance.value!;
+      var matchesConnectionType = selectedConnectionType.value == null;
+      var matchesVehicleType = selectedVehicleType.value == null ||
+          station.vehicleType == selectedVehicleType.value!;
+      var matchesSpeed =
+          selectedSpeed.value == null || station.speed == selectedSpeed.value!;
+      return matchesDistance &&
+          matchesConnectionType &&
+          matchesVehicleType &&
+          matchesSpeed;
+    }).toList();
+  }
+
+  void clearFilters() {
+    selectedDistance.value = 0;
+    selectedConnectionType.value = '';
+    selectedVehicleType.value = '';
+    selectedSpeed.value = '';
+    filteredStations.value = chargingStations;
   }
 }

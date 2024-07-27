@@ -6,19 +6,13 @@ class Detialscontroller extends GetxController {
   var favoriteStations = <ChargingStation>[].obs;
   var rating1 = 0.0.obs;
 
-  void updateRating(double newRating) {
-    rating1.value = newRating;
-    // Update the rating of the selected station if it exists
-    if (selectedStation.value != null) {
-      selectedStation.value!.rating = newRating;
-      // Update the value to trigger UI updates
-      selectedStation.refresh();
-    }
+  void updateRating(ChargingStation station, double newRating) {
+    station.rating1.value = newRating;
   }
 
   void selectStation(ChargingStation station) {
     selectedStation.value = station;
-    rating1.value = station.rating;
+    rating1.value = station.rating1.value;
   }
 
   void clearSelection() {

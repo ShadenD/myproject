@@ -98,10 +98,10 @@ class PaymentView extends StatelessWidget {
 
                   Get.to(() => BookingPage());
                 },
-                child: Text('Payment'),
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
+                child: const Text('Payment'),
               ),
             ],
           ),

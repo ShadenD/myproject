@@ -40,8 +40,10 @@ class Map1 extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                       title: Text(station.name),
-                      subtitle: Text(
-                          '${station.address}\n${station.hours}\n${station.distance} km\nRating: ${station.rating}'),
+                      subtitle: Obx(
+                        () => Text(
+                            '${station.address}\n${station.hours}\n${station.distance} km\nRating: ${station.rating1.value}'),
+                      ),
                       isThreeLine: true,
                       trailing: IconButton(
                         icon: Icon(

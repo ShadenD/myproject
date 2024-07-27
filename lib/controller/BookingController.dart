@@ -15,6 +15,7 @@ class BookingController extends GetxController {
   var selectedTotalCost = 0.0.obs;
   var price2 = 0.0;
   var chargingAmount = 0.0.obs;
+
   var slots = <slot>[].obs;
   var history = <slot>[].obs;
 

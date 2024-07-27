@@ -1,10 +1,11 @@
+import 'package:get/get.dart';
+
 class ChargingStation {
   final int id;
   final String name;
   final String address;
   final String hours;
   final double distance;
-  late final double rating;
   final double latitude;
   final double longitude;
   final String imageUrl;
@@ -12,6 +13,9 @@ class ChargingStation {
   final String vehicleType;
   final String speed;
   bool isFavorite;
+  final double rating;
+
+  var rating1 = 0.0.obs;
 
   ChargingStation({
     required this.id,
@@ -19,15 +23,17 @@ class ChargingStation {
     required this.address,
     required this.hours,
     required this.distance,
-    required this.rating,
     required this.latitude,
     required this.longitude,
+    required this.rating,
     required this.imageUrl,
     required this.connectionTypes,
     required this.vehicleType,
     required this.speed,
     this.isFavorite = false,
-  });
+  }) {
+    rating1.value = rating;
+  }
 }
 
 class ConnectionType {

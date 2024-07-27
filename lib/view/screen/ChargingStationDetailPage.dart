@@ -207,9 +207,9 @@ class ChargingStationDetailPage extends StatelessWidget {
             Obx(() {
               return Expanded(
                 child: Slider(
-                  value: controller.rating1.value,
+                  value: station.rating1.value,
                   onChanged: (newValue) {
-                    controller.updateRating(newValue);
+                    controller.updateRating(station, newValue);
                   },
                   divisions: 10,
                   max: 5,
